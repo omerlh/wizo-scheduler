@@ -72,7 +72,7 @@ func main() {
 
 		for _, v := range(grouped) {
 			
-			fileName := fmt.Sprintf("%s.txt", v.(Group).Key)
+			fileName := fmt.Sprintf("%s.html", v.(Group).Key)
 
 			f, err := os.Create(fileName)
 			if err != nil {
@@ -81,7 +81,28 @@ func main() {
 
 			defer f.Close()
 
-			f.WriteString(fmt.Sprintf("%s", v.(Group).Key))
+			f.WriteString(fmt.Sprintf(`<html>
+			<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head><body>`))
+
+			f.WriteString(fmt.Sprintf("<h1>%s</h1>", v.(Group).Key))
 
 			var byDay []interface{}
 
@@ -91,9 +112,10 @@ func main() {
 				return row // author as value
 			}).ToSlice(&byDay)
 
+			f.WriteString(fmt.Sprintf("<table><tr><th>זמן</th><th>מיקום</th><th>קבוצה</th></tr>"))
 			
 			for _, day := range(byDay) {
-				f.WriteString(fmt.Sprintf("%s\n", day.(Group).Key))
+				f.WriteString(fmt.Sprintf("<tr><td>%s</td><td></td><td></td></tr>\n", day.(Group).Key))
 
 				var sorted []interface{}
 
@@ -103,11 +125,11 @@ func main() {
 					}).ToSlice(&sorted)
 
 				for _, hour := range(sorted) {
-					f.WriteString(fmt.Sprintf("%s\t%s\t%s\n", hour.(Row).Hour, hour.(Row).Location, hour.(Row).Group))
+					f.WriteString(fmt.Sprintf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n", hour.(Row).Hour, hour.(Row).Location, hour.(Row).Group))
 				}
 			}
 
-			fmt.Println("apd:", )
+			f.WriteString(fmt.Sprintf("</table></html></body>"))
 		}
 
 		

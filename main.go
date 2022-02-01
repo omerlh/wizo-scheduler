@@ -132,7 +132,7 @@ table {
 
 td, th {
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: right;
   padding: 8px;
 }
 

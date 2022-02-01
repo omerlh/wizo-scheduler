@@ -21,8 +21,8 @@ jobs:
 
     - name: download libraries
       run: |
-        choco install wkhtmltopdf
-        dir C:\Program Files\wkhtmltopdf
+        choco install --limit-output --no-progress wkhtmltopdf
+        dir "C:\Program Files\wkhtmltopdf"
     - name: Build
       run: |
         go get

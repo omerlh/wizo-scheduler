@@ -21,9 +21,7 @@ jobs:
 
     - name: download libraries
       run: |
-        wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox-0.12.6-1.mxe-cross-win64.7z
-        7z x wkhtmltox-0.12.6-1.mxe-cross-win64.7z -o*
-
+        choco install wkhtmltopdf
     - name: Build
       run: |
         go get

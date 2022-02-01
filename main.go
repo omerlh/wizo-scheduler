@@ -154,7 +154,7 @@ td.bold {
 			return row // author as value
 		}).ToSlice(&byDay)
 
-		f.WriteString(fmt.Sprintf("<table><tr><th>זמן</th><th>מיקום</th><th>קבוצה</th><th>ילדים</th></tr>"))
+		f.WriteString(fmt.Sprintf("<table><tr><th>זמן</th><th>מיקום</th><th>קבוצה</th><th>חניכות</th></tr>"))
 		
 		for _, day := range(byDay) {
 			f.WriteString(fmt.Sprintf("<tr><td class=bold>%s</td><td></td><td></td><td></td></tr>\n", day.(Group).Key))

@@ -9,6 +9,7 @@ import (
 		"time"
 		"github.com/jessevdk/go-flags"
 		"github.com/uniplaces/carbon"
+		pdf "github.com/adrg/go-wkhtmltopdf"
 )
 
 type Row struct {
@@ -58,6 +59,14 @@ func main() {
 			os.Exit(1)
 		}
 	}
+
+	pdfEnabled := true
+	
+	if err := pdf.Init(); err != nil {
+		fmt.Println("Missing pdf library, you can download it from here: https://wkhtmltopdf.org/downloads.html. PDF generation is not support right now.")
+		pdfEnabled = false
+	}
+	defer pdf.Destroy()
 
 	f, err := os.Open(options.FileName)
 
@@ -187,5 +196,47 @@ td.bold {
 		f.WriteString(fmt.Sprintf("</table></html></body>"))
 	}
 
+	if (pdfEnabled) {
+		for _, v := range(grouped) {
+			fileName := fmt.Sprintf("%s.html", v.(Group).Key)
+			object, err := pdf.NewObject(fileName)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			object.Header.ContentCenter = "[title]"
+			object.Header.DisplaySeparator = true
+
+			converter, err := pdf.NewConverter()
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer converter.Destroy()
+
+			converter.Add(object)
+
+			converter.Title = "Sample document"
+			converter.PaperSize = pdf.A4
+			converter.Orientation = pdf.Landscape
+			converter.MarginTop = "1cm"
+			converter.MarginBottom = "1cm"
+			converter.MarginLeft = "10mm"
+			converter.MarginRight = "10mm"
+
+			pdfFileName := fmt.Sprintf("%s.pdf", v.(Group).Key)
+
+			outFile, err := os.Create(pdfFileName)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			defer outFile.Close()
+
+			if err := converter.Run(outFile); err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+	
 		
 }

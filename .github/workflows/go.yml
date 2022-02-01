@@ -24,8 +24,8 @@ jobs:
         choco install --limit-output --no-progress wkhtmltopdf
     - name: Build
       run: |
-        set CGO_LDFLAGS=-"C:\Program Files\wkhtmltopdf\bin"
-        set CGO_CFLAGS=-"C:\Program Files\wkhtmltopdf\include"
+        set CGO_LDFLAGS="-IC:\Program Files\wkhtmltopdf\bin"
+        set CGO_CFLAGS="-IC:\Program Files\wkhtmltopdf\include"
         go get
         go build 
     - name: Bump version and push tag

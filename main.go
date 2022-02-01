@@ -154,10 +154,10 @@ td.bold {
 			return row // author as value
 		}).ToSlice(&byDay)
 
-		f.WriteString(fmt.Sprintf("<table><tr><th>זמן</th><th>מיקום</th><th>קבוצה</th></tr>"))
+		f.WriteString(fmt.Sprintf("<table><tr><th>זמן</th><th>מיקום</th><th>קבוצה</th><th>ילדים</th></tr>"))
 		
 		for _, day := range(byDay) {
-			f.WriteString(fmt.Sprintf("<tr><td class=bold>%s</td><td></td><td></td></tr>\n", day.(Group).Key))
+			f.WriteString(fmt.Sprintf("<tr><td class=bold>%s</td><td></td><td></td><td></td></tr>\n", day.(Group).Key))
 
 			var sorted []interface{}
 
@@ -167,7 +167,7 @@ td.bold {
 				}).ToSlice(&sorted)
 
 			for _, hour := range(sorted) {
-				f.WriteString(fmt.Sprintf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n", hour.(Row).Hour, hour.(Row).Location, hour.(Row).Group))
+				f.WriteString(fmt.Sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", hour.(Row).Hour, hour.(Row).Location, hour.(Row).Group, hour.(Row).Kids))
 			}
 		}
 

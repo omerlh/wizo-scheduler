@@ -6,7 +6,9 @@ import (
     "fmt"
     "io"
     "os"
+		"time"
 		"github.com/jessevdk/go-flags"
+		"github.com/uniplaces/carbon"
 )
 
 type Row struct {
@@ -39,6 +41,7 @@ type Options struct {
 
 
 func main() {
+
 	var options Options
 
 	parser := flags.NewParser(&options, flags.Default)
@@ -109,9 +112,11 @@ func main() {
 		return row // author as value
 	}).ToSlice(&grouped)
 
+	nextSunday := carbon.Now().Next(time.Sunday).DateString()
+
 	for _, v := range(grouped) {
 		
-		fileName := fmt.Sprintf("%s.html", v.(Group).Key)
+		fileName := fmt.Sprintf("%s-%s.html", v.(Group).Key, nextSunday)
 
 		f, err := os.Create(fileName)
 		if err != nil {

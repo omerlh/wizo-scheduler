@@ -37,6 +37,7 @@ var (
 type Options struct {
 	FileName string `short:"f" long:"file" description:"The name of the CSV file to parse" required:"true"`
 	GroupBy string `short:"g" long:"groupBy" description:"The field to group by (teacher or group)" choice:"teacher" choice:"group" default:"teacher"`
+	Date string `short:"d" long:"date" description:"Add date to output file names" choice:"today" choice:"sunday" choice:"none" default:"none"`
 }
 
 
@@ -112,11 +113,18 @@ func main() {
 		return row // author as value
 	}).ToSlice(&grouped)
 
-	nextSunday := carbon.Now().Next(time.Sunday).DateString()
+	suffix := ""
+
+	switch(options.Date) {
+		case "today":
+			suffix = fmt.Sprintf("-%s", carbon.Now().DateString())
+		case "sunday":
+			suffix = fmt.Sprintf("-%s", carbon.Now().Next(time.Sunday).DateString())
+	}
 
 	for _, v := range(grouped) {
 		
-		fileName := fmt.Sprintf("%s-%s.html", v.(Group).Key, nextSunday)
+		fileName := fmt.Sprintf("%s%s.html", v.(Group).Key, suffix)
 
 		f, err := os.Create(fileName)
 		if err != nil {

@@ -22,9 +22,10 @@ jobs:
     - name: download libraries
       run: |
         choco install --limit-output --no-progress wkhtmltopdf
-        dir "C:\Program Files\wkhtmltopdf"
     - name: Build
       run: |
+        set CGO_LDFLAGS=-"C:\Program Files\wkhtmltopdf\bin"
+        set CGO_CFLAGS=-"C:\Program Files\wkhtmltopdf\include"
         go get
         go build 
     - name: Bump version and push tag

@@ -22,10 +22,11 @@ jobs:
     - name: download libraries
       run: |
         choco install wkhtmltopdf
+        dir C:\Program Files\wkhtmltopdf
     - name: Build
       run: |
         go get
-        GOOS=windows GOARCH=amd64 go build 
+        go build 
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main' }}
       id: tag_version

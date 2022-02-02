@@ -21,7 +21,9 @@ jobs:
 
     - name: download libraries
       run: |
-        choco install --limit-output --no-progress wkhtmltopdf
+        choco install --limit-output --no-progress wkhtmltopdf choco install mingw
+        dir "C:\Program Files\wkhtmltopdf\include"
+        dir "C:\Program Files\wkhtmltopdf\include\wkhtmltox"
     - name: Build
       run: |
         set CGO_LDFLAGS="-IC:\Program Files\wkhtmltopdf\bin"

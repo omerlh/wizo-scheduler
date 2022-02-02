@@ -25,10 +25,11 @@ jobs:
         New-Item -ItemType Junction -Path "C:\wkhtmltopdf" -Target "C:\Program Files\wkhtmltopdf"
     - name: Build
       run: |
-        Set-Item -Path Env:CGO_LDFLAGS -Value "-LC:\wkhtmltopdf\bin"
-        Set-Item -Path Env:CGO_CFLAGS -Value "-IC:\wkhtmltopdf\include"
+        Set-Item -Path Env:CGO_LDFLAGS -Value "-LC:\Program Files\wkhtmltopdf\bin"
+        Set-Item -Path Env:CGO_CFLAGS -Value "-IC:\Program Files\wkhtmltopdf\include"
         go get
         go build 
+        dir .
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main' }}
       id: tag_version

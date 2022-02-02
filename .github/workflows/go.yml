@@ -29,8 +29,15 @@ jobs:
         Set-Item -Path Env:CGO_CFLAGS -Value "-IC:\wkhtmltopdf\include"
         go get
         go build
+
+        $compress = @{
+          Path = "wizo-schedule.exe", "C:\wkhtmltopdf\bin\wkhtmltox.dll"
+          CompressionLevel = "Fastest"
+          DestinationPath = "wizo-schedule.Zip"
+        }
+        Compress-Archive @compress
         dir .
-        dir C:\wkhtmltopdf\bin
+        
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main' }}
       id: tag_version

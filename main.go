@@ -6,6 +6,7 @@ import (
     "fmt"
     "io"
     "os"
+		"log"
 		"time"
 		"github.com/jessevdk/go-flags"
 		"github.com/uniplaces/carbon"

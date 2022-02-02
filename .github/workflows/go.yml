@@ -21,13 +21,11 @@ jobs:
 
     - name: download libraries
       run: |
-        choco install --limit-output --no-progress wkhtmltopdf choco install mingw
-        dir "C:\Program Files\wkhtmltopdf\include"
-        dir "C:\Program Files\wkhtmltopdf\include\wkhtmltox"
+        choco install --dir "C:\wkhtmltopdf" --limit-output --no-progress wkhtmltopdf
     - name: Build
       run: |
-        set CGO_LDFLAGS="-IC:\Program Files\wkhtmltopdf\bin"
-        set CGO_CFLAGS="-IC:\Program Files\wkhtmltopdf\include"
+        set CGO_LDFLAGS="-IC:\wkhtmltopdf\wkhtmltopdf\bin"
+        set CGO_CFLAGS="-IC:\wkhtmltopdf\wkhtmltopdf\include"
         go get
         go build 
     - name: Bump version and push tag

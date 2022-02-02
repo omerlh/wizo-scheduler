@@ -22,7 +22,7 @@ jobs:
     - name: download libraries
       run: |
         choco install --limit-output --no-progress wkhtmltopdf
-        New-Item -ItemType HardLink -Path "C:\wkhtmltopdf" -Target "C:\Program Files\wkhtmltopdf"
+        New-Item -ItemType Junction -Path "C:\wkhtmltopdf" -Target "C:\Program Files\wkhtmltopdf"
         dir "C:\wkhtmltopdf"
     - name: Build
       run: |

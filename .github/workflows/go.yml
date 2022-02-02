@@ -33,10 +33,9 @@ jobs:
         $compress = @{
           Path = "wizo-schedule.exe", "C:\wkhtmltopdf\bin\wkhtmltox.dll"
           CompressionLevel = "Fastest"
-          DestinationPath = "wizo-schedule.Zip"
+          DestinationPath = "wizo-schedule.zip"
         }
         Compress-Archive @compress
-        dir .
         
     - name: Bump version and push tag
       if: ${{ github.ref == 'refs/heads/main' }}
@@ -47,7 +46,7 @@ jobs:
     - uses: ncipollo/release-action@v1
       if: ${{ github.ref == 'refs/heads/main' }}
       with:
-        artifacts: "wizo-schedule.exe"
+        artifacts: "wizo-schedule.zip"
         tag: ${{ steps.tag_version.outputs.new_tag }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         token: ${{ secrets.GITHUB_TOKEN }}

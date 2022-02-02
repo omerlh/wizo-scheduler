@@ -23,11 +23,10 @@ jobs:
       run: |
         choco install --limit-output --no-progress wkhtmltopdf
         New-Item -ItemType Junction -Path "C:\wkhtmltopdf" -Target "C:\Program Files\wkhtmltopdf"
-        dir "C:\wkhtmltopdf"
     - name: Build
       run: |
-        set CGO_LDFLAGS="-IC:\wkhtmltopdf\bin"
-        set CGO_CFLAGS="-IC:\wkhtmltopdf\include"
+        set CGO_LDFLAGS=-LC:\wkhtmltopdf\bin
+        set CGO_CFLAGS=-IC:\wkhtmltopdf\include
         go get
         go build 
     - name: Bump version and push tag
